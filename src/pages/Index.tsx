@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-subtle">
+    <div className="min-h-screen bg-[url('/background.jpg')] bg-cover bg-center bg-no-repeat bg-fixed">
       {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50 animate-fade-in">
+      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-50 animate-fade-in shadow-lg">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-            <h1 className="text-lg sm:text-xl font-semibold text-foreground">Resilience Hub</h1>
+            <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-primary drop-shadow-sm" />
+            <h1 className="text-lg sm:text-xl font-semibold text-foreground drop-shadow-sm">Resilience Hub</h1>
           </div>
-          <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">Safe. Anonymous. Supportive.</p>
+          <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block drop-shadow-sm">Safe. Anonymous. Supportive.</p>
         </div>
       </header>
 
@@ -24,8 +24,8 @@ const Index = () => {
             You're Not Alone.<br />
             <span className="text-primary">We're Here to Support You.</span>
           </h2>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
-            A safe, anonymous space for survivors of digital trauma. Find immediate support, 
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4 text-shadow-card leading-relaxed">
+            A safe, anonymous space for survivors of digital trauma. Find immediate support,
             therapeutic exercises, and trusted resources across Africa.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-2 sm:pt-4 px-4">
@@ -48,13 +48,18 @@ const Index = () => {
       {/* Quick Access Tools */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
         <div className="max-w-6xl mx-auto">
-          <h3 className="text-xl sm:text-2xl font-semibold text-center mb-6 sm:mb-8 text-foreground animate-fade-in">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-center mb-6 sm:mb-8 text-foreground animate-fade-in text-shadow-card">
             Your Toolkit for Recovery
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* Breathing Exercises */}
             <Link to="/breathing" className="group">
               <Card className="p-5 sm:p-6 h-full hover:shadow-medium transition-all duration-300 cursor-pointer border-primary/20 hover:border-primary/40 hover:scale-105 animate-fade-in">
+                <img
+                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Peaceful nature scene for breathing exercises"
+                  className="w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4"
+                />
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3 sm:mb-4 group-hover:bg-primary/20 transition-colors">
                   <Wind className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
@@ -68,11 +73,16 @@ const Index = () => {
             {/* CBT Modules */}
             <Link to="/cbt-modules" className="group">
               <Card className="p-5 sm:p-6 h-full hover:shadow-medium transition-all duration-300 cursor-pointer border-secondary/20 hover:border-secondary/40 hover:scale-105 animate-fade-in [animation-delay:100ms]">
+                <img
+                  src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Brain and thought patterns illustration for CBT exercises"
+                  className="w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4"
+                />
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-secondary/10 flex items-center justify-center mb-3 sm:mb-4 group-hover:bg-secondary/20 transition-colors">
                   <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-secondary" />
                 </div>
-                <h4 className="text-lg sm:text-xl font-semibold mb-2 text-foreground">CBT Exercises</h4>
-                <p className="text-sm sm:text-base text-muted-foreground">
+                <h4 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 text-foreground text-shadow-card">CBT Exercises</h4>
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                   Evidence-based cognitive exercises designed for processing digital trauma and rebuilding resilience.
                 </p>
               </Card>
@@ -81,11 +91,16 @@ const Index = () => {
             {/* Journal */}
             <Link to="/journal" className="group">
               <Card className="p-5 sm:p-6 h-full hover:shadow-medium transition-all duration-300 cursor-pointer border-accent/20 hover:border-accent/40 hover:scale-105 animate-fade-in [animation-delay:200ms]">
+                <img
+                  src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Open journal with pen for personal journaling"
+                  className="w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4"
+                />
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-accent/10 flex items-center justify-center mb-3 sm:mb-4 group-hover:bg-accent/20 transition-colors">
                   <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
                 </div>
-                <h4 className="text-lg sm:text-xl font-semibold mb-2 text-foreground">My Safe Space</h4>
-                <p className="text-sm sm:text-base text-muted-foreground">
+                <h4 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 text-foreground text-shadow-card">My Safe Space</h4>
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                   Your private, encrypted journal. Document your journey in a completely secure environment.
                 </p>
               </Card>
@@ -97,8 +112,8 @@ const Index = () => {
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3 sm:mb-4 group-hover:bg-primary/20 transition-colors">
                   <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
-                <h4 className="text-lg sm:text-xl font-semibold mb-2 text-foreground">Local Resources</h4>
-                <p className="text-sm sm:text-base text-muted-foreground">
+                <h4 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 text-foreground text-shadow-card">Local Resources</h4>
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                   Verified crisis hotlines, counseling centers, NGOs, and legal aid across African regions.
                 </p>
               </Card>
@@ -106,6 +121,11 @@ const Index = () => {
 
             {/* About CBT */}
             <Card className="p-5 sm:p-6 h-full border-muted bg-muted/30 animate-fade-in [animation-delay:400ms]">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                alt="Open book representing learning about CBT therapy"
+                className="w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4"
+              />
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-foreground/5 flex items-center justify-center mb-3 sm:mb-4">
                 <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-foreground/60" />
               </div>
@@ -120,8 +140,8 @@ const Index = () => {
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-foreground/5 flex items-center justify-center mb-3 sm:mb-4">
                 <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-foreground/60" />
               </div>
-              <h4 className="text-lg sm:text-xl font-semibold mb-2 text-foreground">Your Privacy</h4>
-              <p className="text-sm sm:text-base text-muted-foreground">
+              <h4 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 text-foreground text-shadow-card">Your Privacy</h4>
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                 Everything is encrypted and anonymous. No tracking. No data collection. Your safety is paramount.
               </p>
             </Card>
@@ -145,8 +165,8 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border bg-card/30 py-6 sm:py-8 mt-12 sm:mt-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
-          <p className="text-xs sm:text-sm max-w-2xl mx-auto">
-            Resilience Hub is designed to support, not replace, professional care. 
+          <p className="text-xs sm:text-sm md:text-base max-w-2xl mx-auto text-shadow-card leading-relaxed">
+            Resilience Hub is designed to support, not replace, professional care.
             Please seek qualified help when needed.
           </p>
         </div>

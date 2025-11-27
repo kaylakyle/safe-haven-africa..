@@ -10,13 +10,13 @@ All colors MUST be HSL.
   :root {
     /* Healing teal/aqua - calm and safe */
     --background: 40 15% 97%;
-    --foreground: 200 15% 20%;
+    --foreground: 200 15% 18%; /* Darkened slightly for better contrast */
 
     --card: 0 0% 100%;
-    --card-foreground: 200 15% 20%;
+    --card-foreground: 200 15% 18%; /* Darkened */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 200 15% 20%;
+    --popover-foreground: 200 15% 18%; /* Darkened */
 
     /* Soft healing teal - primary brand */
     --primary: 180 45% 45%;
@@ -28,11 +28,11 @@ All colors MUST be HSL.
 
     /* Gentle muted tones */
     --muted: 200 15% 94%;
-    --muted-foreground: 200 10% 45%;
+    --muted-foreground: 200 10% 40%; /* Darkened for readability */
 
     /* Gentle lavender for mindfulness */
     --accent: 260 40% 75%;
-    --accent-foreground: 200 15% 20%;
+    --accent-foreground: 200 15% 18%; /* Darkened */
 
     --destructive: 0 70% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -93,6 +93,11 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-image: url('/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 }

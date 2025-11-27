@@ -108,42 +108,58 @@ const CBTModules = () => {
           {/* Modules List */}
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold text-foreground">Your Modules</h2>
-            {modules.map((module, index) => (
-              <Card key={module.id} className="p-6 hover:shadow-medium transition-all">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 mt-1">
-                    {module.completed ? (
-                      <CheckCircle2 className="w-6 h-6 text-primary" />
-                    ) : (
-                      <Circle className="w-6 h-6 text-muted-foreground" />
-                    )}
-                  </div>
-                  <div className="flex-1 space-y-3">
-                    <div>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <h3 className="text-xl font-semibold text-foreground">
-                          {index + 1}. {module.title}
-                        </h3>
-                        <span className="text-sm text-muted-foreground whitespace-nowrap">
-                          {module.duration}
-                        </span>
+            {modules.map((module, index) => {
+              const images = [
+                "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // Understanding Your Feelings
+                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // Challenging Negative Thoughts
+                "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // Managing Shame and Guilt
+                "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // Rebuilding Trust in Online Spaces
+                "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // Creating Your Safety Plan
+              ];
+              return (
+                <Card key={module.id} className="p-6 hover:shadow-medium transition-all">
+                  <div className="flex items-start gap-4">
+                    <img
+                      src={images[index]}
+                      alt={`Illustration for ${module.title}`}
+                      className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg flex-shrink-0"
+                    />
+                    <div className="flex-1 space-y-3">
+                      <div>
+                        <div className="flex items-start justify-between gap-4 mb-2">
+                          <h3 className="text-xl font-semibold text-foreground">
+                            {index + 1}. {module.title}
+                          </h3>
+                          <span className="text-sm text-muted-foreground whitespace-nowrap">
+                            {module.duration}
+                          </span>
+                        </div>
+                        <p className="text-muted-foreground">{module.description}</p>
                       </div>
-                      <p className="text-muted-foreground">{module.description}</p>
+                      <div className="flex gap-3">
+                        <Link to={`/cbt-modules/${module.id}`}>
+                          <Button className="bg-gradient-calm">
+                            {module.completed ? "Review Module" : "Start Module"}
+                          </Button>
+                        </Link>
+                        {index > 0 && !modules[index - 1].completed && (
+                          <span className="text-sm text-muted-foreground self-center">
+                            Complete previous module first
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex gap-3">
-                      <Button className="bg-gradient-calm">
-                        {module.completed ? "Review Module" : "Start Module"}
-                      </Button>
-                      {index > 0 && !modules[index - 1].completed && (
-                        <span className="text-sm text-muted-foreground self-center">
-                          Complete previous module first
-                        </span>
+                    <div className="flex-shrink-0 mt-1">
+                      {module.completed ? (
+                        <CheckCircle2 className="w-6 h-6 text-primary" />
+                      ) : (
+                        <Circle className="w-6 h-6 text-muted-foreground" />
                       )}
                     </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </div>
 
           {/* Note about professional help */}

@@ -1,24 +1,58 @@
-# Welcome to your Lovable project
+# Resilience Hub
 
-## Project info
+## About
 
-**URL**: https://lovable.dev/projects/23f0e78c-fe28-4da9-af7d-09194f79029a
+Resilience Hub is a web application designed to support survivors of digital harm by providing safe, anonymous tools for mental health recovery and resilience building. It addresses theme No.2 "Survivor Support" theme by offering guidance through therapeutic exercises, connection to local help resources, and secure documentation in a completely private environment.
 
-## How can I edit this code?
+### Functionality
 
-There are several ways of editing your application.
+- **Breathing Exercises**: Immediate calming techniques for anxiety and panic, helping users feel grounded during moments of distress.
+- **CBT Modules**: 5 evidence-based cognitive behavioral therapy exercises specifically designed for processing digital trauma and rebuilding mental resilience.
+- **Journal**: A private, encrypted space for users to document their personal journeys and thoughts securely.
+- **Resources**: Access to verified crisis hotlines, counseling centers, NGOs, and legal aid services across African regions.
 
-**Use Lovable**
+## Application Functionality Flow
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/23f0e78c-fe28-4da9-af7d-09194f79029a) and start prompting.
+```mermaid
+flowchart TD
+    Start["🏥 User Enters Resilience Hub"]
+    
+    Start --> Category["Select Feature Category"]
+    
+    Category --> Breathing["🫁 Breathing Exercises"]
+    Category --> CBT["🧠 CBT Modules"]
+    Category --> Journal["📓 Journal"]
+    Category --> Resources["🔗 Resources"]
+    
+    Breathing --> BreathDesc["Immediate Relief<br/>Grounding Techniques"]
+    CBT --> CBTMenu["5 Evidence-Based<br/>Therapy Exercises"]
+    Journal --> JournalDesc["Private & Encrypted<br/>Personal Documentation"]
+    Resources --> ResDesc["Verified Local<br/>Support Services"]
+    
+    BreathDesc --> Privacy["🔒 Privacy First:<br/>No Tracking • No Data • Anonymous"]
+    CBTMenu --> Privacy
+    JournalDesc --> Privacy
+    ResDesc --> Privacy
+    
+    Privacy --> FinalEnd["💪 Empowered & Supported"]
+    
+    classDef startStyle fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    classDef mainStyle fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    classDef featureStyle fill:#FF9800,stroke:#E65100,stroke-width:2px,color:#fff
+    classDef privacyStyle fill:#00BCD4,stroke:#00838F,stroke-width:2px,color:#fff
+    classDef finalStyle fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    
+    class Start startStyle
+    class Category mainStyle
+    class Breathing,CBT,Journal,Resources mainStyle
+    class BreathDesc,CBTMenu,JournalDesc,ResDesc featureStyle
+    class Privacy privacyStyle
+    class FinalEnd finalStyle
+```
 
-Changes made via Lovable will be committed automatically to this repo.
+The application prioritizes user privacy with no tracking, no data collection, and full anonymity to ensure a supportive space for recovery.
 
-**Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 Follow these steps:
 
@@ -60,14 +94,7 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/23f0e78c-fe28-4da9-af7d-09194f79029a) and click on Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
 
-Yes, you can!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
