@@ -12,9 +12,9 @@ const generateToken = (id) =>
 // @access  Public
 exports.register = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+  if (!email || !password) {
     res.status(400);
-    throw new Error('Please provide name, email and password');
+    throw new Error('Please provide email and password');
   }
 
   const userExists = await User.findOne({ email });
@@ -23,11 +23,14 @@ exports.register = asyncHandler(async (req, res) => {
     throw new Error('User already exists');
   }
 
-  const user = await User.create({ name, email, password });
+  const user = await User.create({ name: name || 'User', email, password });
   if (user) {
     res.status(201).json({
-      user: user.toJSON(),
-      token: generateToken(user._id),
+      success: true,
+      data: {
+        user: user.toJSON(),
+        token: generateToken(user._id),
+      },
     });
   } else {
     res.status(400);
@@ -47,7 +50,13 @@ exports.login = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
-    res.json({ user: user.toJSON(), token: generateToken(user._id) });
+    res.json({
+      success: true,
+      data: {
+        user: user.toJSON(),
+        token: generateToken(user._id),
+      },
+    });
   } else {
     res.status(401);
     throw new Error('Invalid credentials');

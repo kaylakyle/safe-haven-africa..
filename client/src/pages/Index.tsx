@@ -2,8 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Wind, Heart, BookOpen, MapPin, Shield, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <div className="min-h-screen bg-[url('/background.jpg')] bg-cover bg-center bg-no-repeat bg-fixed">
       {/* Header */}
@@ -13,7 +20,12 @@ const Index = () => {
             <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-primary drop-shadow-sm" />
             <h1 className="text-lg sm:text-xl font-semibold text-foreground drop-shadow-sm">Resilience Hub</h1>
           </div>
-          <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block drop-shadow-sm">Safe. Anonymous. Supportive.</p>
+          <div className="flex items-center gap-4">
+            <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block drop-shadow-sm">Safe. Anonymous. Supportive.</p>
+            <Button variant="outline" size="sm" onClick={handleLogout} className="text-xs sm:text-sm">
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 

@@ -1,9 +1,17 @@
-# CBT Exercises Module Responsiveness and Functionality Fix
+# TODO: Fix Login Error and Add User Roles
+
+## Current Issue
+- Error: "Cannot read properties of undefined (reading 'user')" during login
+- Cause: Server returns {user, token} but client expects {success: true, data: {token, user}}
 
 ## Tasks
-- [ ] Create dynamic CBTExercise.tsx component
-- [ ] Update App.tsx for dynamic routing (/cbt-modules/:id)
-- [ ] Enhance responsiveness in CBTModules.tsx
-- [ ] Add error handling and retry in CBTModules.tsx
-- [ ] Remove old CBTExercise1-5.tsx components
-- [ ] Test responsiveness and functionality
+- [ ] Update server response format in authController.js
+- [ ] Add role field to User model (default: "user")
+- [ ] Update client interfaces to include role
+- [ ] Test login functionality
+
+## Files to Edit
+- server/models/User.js
+- server/controllers/authController.js
+- client/src/services/api.ts
+- client/src/contexts/AuthContext.tsx

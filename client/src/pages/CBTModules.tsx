@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle2, Circle, Loader2, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { cbtAPI, CBTModule, CBTProgress } from "@/services/api";
 import { useAuth } from "@/contexts/AuthContext";
 import { useFetch, useApi } from "@/hooks/useApi";
@@ -26,11 +26,15 @@ const CBTModules = () => {
   const modules = modulesData || [];
 
   // Fetch user progress
+  const progressApi = useMemo(
+    () => (isAuthenticated ? cbtAPI.getProgress : () => Promise.resolve([])),
+    [isAuthenticated]
+  );
   const {
     data: progressDataRaw = [],
     isLoading: progressLoading,
     refetch: refetchProgress,
-  } = useFetch(isAuthenticated ? cbtAPI.getProgress : async () => []);
+  } = useFetch(progressApi);
   const progressData = progressDataRaw || [];
 
   // Update progress for a module
@@ -226,16 +230,18 @@ const CBTModules = () => {
             )}
           </div>
           <Card className="p-6 bg-secondary/5 border-secondary/20">
-            <h3 className="text-lg font-semibold mb-2 text-foreground">Remember</h3>
-            <p className="text-muted-foreground">
-              These exercises are designed to support your recovery, but they are not a replacement 
-              for professional therapy. If you're struggling, please consider reaching out to a 
-              qualified mental health professional. Check our{" "}
-              <Link to="/resources" className="text-primary hover:underline">
-                Resources page
-              </Link>{" "}
-              for local counseling services.
-            </p>
+            <h3 className="text-lg font-semibold mb-2 text-foreground">Important Notes</h3>
+            <ul className="space-y-2 text-muted-foreground">
+              <li>• These CBT exercises are designed to support your recovery journey</li>
+              <li>• They are not a replacement for professional therapy</li>
+              <li>• Work through them at your own pace</li>
+              <li>• If you're struggling, reach out to a qualified mental health professional</li>
+              <li>• Check our{" "}
+                <Link to="/resources" className="text-primary hover:underline">
+                  Resources page
+                </Link>{" "}
+                for local counseling services</li>
+            </ul>
           </Card>
         </div>
       </section>

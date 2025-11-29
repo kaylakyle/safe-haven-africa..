@@ -2,11 +2,12 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useApi } from "@/hooks/useApi";
 import { cbtAPI } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
+
 
 const MODULE_ID = "1"; // Unique identifier for this module
 
@@ -16,6 +17,28 @@ const CBTExercise1 = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(0);
   const [responses, setResponses] = useState<string[]>([]);
+
+  // Load saved responses and step from localStorage
+  useEffect(() => {
+    const savedResponses = localStorage.getItem(`cbt-responses-${MODULE_ID}`);
+    const savedStep = localStorage.getItem(`cbt-step-${MODULE_ID}`);
+    if (savedResponses) {
+      try {
+        setResponses(JSON.parse(savedResponses));
+      } catch (e) {
+        console.error("Error parsing saved responses:", e);
+      }
+    }
+    if (savedStep) {
+      setStep(parseInt(savedStep, 10));
+    }
+  }, []);
+
+  // Save responses and step to localStorage on change
+  useEffect(() => {
+    localStorage.setItem(`cbt-responses-${MODULE_ID}`, JSON.stringify(responses));
+    localStorage.setItem(`cbt-step-${MODULE_ID}`, step.toString());
+  }, [responses, step]);
 
   // Update progress when module completes
   const { execute: updateProgress, isLoading: updateLoading } = useApi(
@@ -91,21 +114,28 @@ const CBTExercise1 = () => {
             On a scale of 1-10, how intense are these emotions right now?
             (1 = barely noticeable, 10 = overwhelming)
           </p>
-          <input
-            type="range"
-            min="1"
-            max="10"
-            className="w-full"
-            value={responses[1] || "5"}
-            onChange={(e) => {
-              const newResponses = [...responses];
-              newResponses[1] = e.target.value;
-              setResponses(newResponses);
-            }}
-          />
-          <p className="text-center text-muted-foreground">
-            Intensity: {responses[1] || "5"}/10
-          </p>
+          <div className="space-y-2">
+            <input
+              type="range"
+              min="1"
+              max="10"
+              className="w-full"
+              value={responses[1] || "5"}
+              onChange={(e) => {
+                const newResponses = [...responses];
+                newResponses[1] = e.target.value;
+                setResponses(newResponses);
+              }}
+              aria-label="Emotion intensity slider"
+            />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>1 (Mild)</span>
+              <span>10 (Overwhelming)</span>
+            </div>
+            <p className="text-center text-muted-foreground">
+              Intensity: {responses[1] || "5"}/10
+            </p>
+          </div>
         </div>
       ),
     },
@@ -123,7 +153,7 @@ const CBTExercise1 = () => {
             <li>• Fatigue or restlessness</li>
           </ul>
           <textarea
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border rounded-md min-h-[100px] resize-y"
             placeholder="Describe where you feel these emotions physically..."
             rows={4}
             value={responses[2] || ""}
@@ -132,6 +162,7 @@ const CBTExercise1 = () => {
               newResponses[2] = e.target.value;
               setResponses(newResponses);
             }}
+            aria-label="Physical sensations description"
           />
         </div>
       ),
@@ -168,51 +199,82 @@ const CBTExercise1 = () => {
             This is an important first step in your recovery journey. Continue practicing
             this awareness of your emotions as you move through the other modules.
           </p>
-          <Button
-            onClick={async () => {
-              // Mark as completed in API if authenticated
-              if (isAuthenticated) {
-                try {
-                  await updateProgress(MODULE_ID, true);
-                  navigate("/cbt-modules");
-                } catch (e) {
-                  console.error("Error updating progress:", e);
-                  // Still navigate even if API fails
-                  navigate("/cbt-modules");
-                }
-              } else {
-                // Fallback to localStorage if not authenticated
-                const completedModules = JSON.parse(
-                  localStorage.getItem("completedModules") || "[]"
-                );
-                if (!completedModules.includes(MODULE_ID)) {
-                  completedModules.push(MODULE_ID);
-                  localStorage.setItem(
-                    "completedModules",
-                    JSON.stringify(completedModules)
-                  );
-                }
-                navigate("/cbt-modules");
-              }
-            }}
-            disabled={updateLoading}
-            className="bg-gradient-calm"
-          >
-            {updateLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Saving...
-              </>
-            ) : (
-              "Return to Modules"
-            )}
-          </Button>
+                <Button
+                  onClick={async () => {
+                    if (!isReadyToComplete()) {
+                      toast({
+                        title: "Please complete all required steps",
+                        description: "Fill in your responses for emotions, intensity, and physical sensations.",
+                        variant: "destructive",
+                      });
+                      return;
+                    }
+                    // Mark as completed in API if authenticated
+                    if (isAuthenticated) {
+                      try {
+                        await updateProgress(MODULE_ID, true);
+                        navigate("/cbt-modules");
+                      } catch (e) {
+                        console.error("Error updating progress:", e);
+                        // Still navigate even if API fails
+                        navigate("/cbt-modules");
+                      }
+                    } else {
+                      // Fallback to localStorage if not authenticated
+                      const completedModules = JSON.parse(
+                        localStorage.getItem("completedModules") || "[]"
+                      );
+                      if (!completedModules.includes(MODULE_ID)) {
+                        completedModules.push(MODULE_ID);
+                        localStorage.setItem(
+                          "completedModules",
+                          JSON.stringify(completedModules)
+                        );
+                      }
+                      navigate("/cbt-modules");
+                    }
+                  }}
+                  disabled={updateLoading}
+                  className="bg-gradient-calm"
+                  aria-label="Complete exercise and return to modules"
+                >
+                  {updateLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    "Return to Modules"
+                  )}
+                </Button>
         </div>
       ),
     },
   ];
 
+  // Validation: Check if current step's response is filled (for interactive steps)
+  const isStepValid = () => {
+    const interactiveSteps = [1, 2, 3]; // Steps that require input (0-based: 1=name,2=rate,3=body)
+    if (interactiveSteps.includes(step)) {
+      return responses[step - 1]?.trim().length > 0 || (step === 2 && responses[1]); // Step 2 is slider, always valid if set
+    }
+    return true;
+  };
+
+  // Check if ready to complete
+  const isReadyToComplete = () => {
+    return responses[0]?.trim().length > 0 && responses[1] && responses[2]?.trim().length > 0;
+  };
+
   const nextStep = () => {
+    if (!isStepValid()) {
+      toast({
+        title: "Please complete this step",
+        description: "Fill in your response before continuing.",
+        variant: "destructive",
+      });
+      return;
+    }
     if (step < steps.length - 1) {
       setStep(step + 1);
     }
@@ -228,7 +290,7 @@ const CBTExercise1 = () => {
     <div className="min-h-screen bg-gradient-subtle">
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-2 sm:px-4 py-4">
           <Link to="/cbt-modules" className="inline-flex items-center text-primary hover:text-primary/80 transition-colors">
             <ArrowLeft className="w-5 h-5 mr-2" />
             <span className="font-medium">Back to CBT Modules</span>
@@ -237,15 +299,21 @@ const CBTExercise1 = () => {
       </header>
 
       {/* Main Content */}
-      <section className="container mx-auto px-4 py-12">
+      <section className="container mx-auto px-2 sm:px-4 py-6 sm:py-12">
         <div className="max-w-2xl mx-auto">
-          <Card className="p-8">
+          <Card className="p-4 sm:p-8">
             <div className="space-y-6">
               <div className="text-center">
-                <h1 className="text-2xl font-bold text-foreground mb-2">
+                <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">
                   {steps[step].title}
                 </h1>
-                <div className="w-full bg-secondary rounded-full h-2">
+                <div
+                  className="w-full bg-secondary rounded-full h-2"
+                  role="progressbar"
+                  aria-valuenow={((step + 1) / steps.length) * 100}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
                   <div
                     className="bg-primary h-2 rounded-full transition-all"
                     style={{ width: `${((step + 1) / steps.length) * 100}%` }}
@@ -258,11 +326,12 @@ const CBTExercise1 = () => {
 
               {steps[step].content}
 
-              <div className="flex justify-between pt-4">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 sm:justify-between pt-4">
                 <Button
                   variant="outline"
                   onClick={prevStep}
                   disabled={step === 0}
+                  aria-label="Go to previous step"
                 >
                   Previous
                 </Button>
@@ -270,6 +339,7 @@ const CBTExercise1 = () => {
                   onClick={nextStep}
                   disabled={step === steps.length - 1}
                   className="bg-gradient-calm"
+                  aria-label={step === steps.length - 2 ? "Complete exercise" : "Go to next step"}
                 >
                   {step === steps.length - 2 ? "Complete" : "Next"}
                 </Button>

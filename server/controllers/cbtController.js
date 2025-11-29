@@ -80,3 +80,53 @@ exports.updateProgress = asyncHandler(async (req, res) => {
 
   res.json(progress);
 });
+
+// @desc    Save CBT response
+// @route   POST /api/cbt/responses
+// @access  Private
+exports.saveResponse = asyncHandler(async (req, res) => {
+  const { moduleId, stepId, response } = req.body;
+
+  if (!moduleId || !stepId || response === undefined) {
+    res.status(400);
+    throw new Error('Module ID, step ID, and response are required');
+  }
+
+  // Find or create journal entry for CBT responses
+  let journalEntry = await require('../models/JournalEntry').findOne({
+    userId: req.user._id,
+    title: 'CBT Exercise Responses'
+  });
+
+  if (!journalEntry) {
+    journalEntry = new (require('../models/JournalEntry'))({
+      userId: req.user._id,
+      title: 'CBT Exercise Responses',
+      content: 'Storage for CBT exercise responses',
+      cbtResponses: []
+    });
+  }
+
+  // Update or add response
+  const existingResponseIndex = journalEntry.cbtResponses.findIndex(
+    r => r.moduleId === moduleId && r.stepId === stepId
+  );
+
+  if (existingResponseIndex >= 0) {
+    journalEntry.cbtResponses[existingResponseIndex].response = response;
+    journalEntry.cbtResponses[existingResponseIndex].updatedAt = new Date();
+  } else {
+    journalEntry.cbtResponses.push({
+      moduleId,
+      stepId,
+      response,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+  }
+
+  journalEntry.updatedAt = new Date();
+  await journalEntry.save();
+
+  res.json({ success: true, message: 'Response saved successfully' });
+});

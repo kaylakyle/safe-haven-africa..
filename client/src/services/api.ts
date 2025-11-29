@@ -7,7 +7,7 @@
 import axios, { AxiosInstance, AxiosError } from "axios";
 
 // API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "/api";
 const TIMEOUT = 30000; // 30 seconds
 
 // API Response Types
@@ -24,6 +24,7 @@ export interface AuthResponse {
     id: string;
     email: string;
     createdAt: string;
+    role: string;
   };
 }
 

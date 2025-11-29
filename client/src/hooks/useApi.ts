@@ -3,7 +3,7 @@
  * Simplifies API calls with loading, error, and data state management
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { getErrorMessage } from "@/services/api";
 
 interface UseApiState<T> {
@@ -85,7 +85,7 @@ export const useFetch = <T,>(
     }
   }, [apiFunction]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     refetch();
   }, [refetch, retryCount, ...dependencies]);
 
@@ -95,5 +95,3 @@ export const useFetch = <T,>(
 
   return { ...state, refetch, retry };
 };
-
-import React from "react";
