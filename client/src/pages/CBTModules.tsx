@@ -204,8 +204,11 @@ const CBTModules = () => {
                           <div className="flex gap-3 items-center">
                             {!isLocked ? (
                               <>
-                                <Link to={`/cbt-modules/${module.id}`}>
-                                  <Button className="bg-gradient-calm">
+                                <Link to={`/cbt-modules/${module.id}`} className="no-underline">
+                                  <Button 
+                                    className="bg-gradient-calm hover:bg-gradient-calm/90 transition-all"
+                                    aria-label={module.completed ? `Review ${module.title}` : `Start ${module.title}`}
+                                  >
                                     {module.completed ? "Review Module" : "Start Module"}
                                   </Button>
                                 </Link>
@@ -221,9 +224,12 @@ const CBTModules = () => {
                                 )}
                               </>
                             ) : (
-                              <span className="text-sm text-muted-foreground">
-                                Complete previous module first
-                              </span>
+                              <div className="flex items-center gap-2">
+                                <Circle className="w-4 h-4 text-muted-foreground" />
+                                <span className="text-sm text-muted-foreground">
+                                  Complete previous module first
+                                </span>
+                              </div>
                             )}
                           </div>
                         </div>

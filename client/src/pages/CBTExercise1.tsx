@@ -73,6 +73,16 @@ const CBTExercise1 = () => {
           <p className="text-muted-foreground">
             Remember, all emotions are valid. There's no "right" or "wrong" way to feel after trauma.
           </p>
+          <div className="pt-4">
+            <Button
+              onClick={() => {
+                setStep(1);
+              }}
+              className="bg-gradient-calm"
+            >
+              {step > 0 || (responses && responses.length > 0) ? "Continue Module" : "Start Module"}
+            </Button>
+          </div>
         </div>
       ),
     },
@@ -209,15 +219,19 @@ const CBTExercise1 = () => {
                       });
                       return;
                     }
+
+                    const nextModuleId = parseInt(MODULE_ID) + 1;
+                    const nextPath = nextModuleId <= 5 ? `/cbt-modules/${nextModuleId}` : "/cbt-modules";
+
                     // Mark as completed in API if authenticated
                     if (isAuthenticated) {
                       try {
                         await updateProgress(MODULE_ID, true);
-                        navigate("/cbt-modules");
+                        navigate(nextPath);
                       } catch (e) {
                         console.error("Error updating progress:", e);
                         // Still navigate even if API fails
-                        navigate("/cbt-modules");
+                        navigate(nextPath);
                       }
                     } else {
                       // Fallback to localStorage if not authenticated
@@ -231,12 +245,12 @@ const CBTExercise1 = () => {
                           JSON.stringify(completedModules)
                         );
                       }
-                      navigate("/cbt-modules");
+                      navigate(nextPath);
                     }
                   }}
                   disabled={updateLoading}
                   className="bg-gradient-calm"
-                  aria-label="Complete exercise and return to modules"
+                  aria-label="Complete exercise and continue to next module"
                 >
                   {updateLoading ? (
                     <>
@@ -244,7 +258,7 @@ const CBTExercise1 = () => {
                       Saving...
                     </>
                   ) : (
-                    "Return to Modules"
+                    "Continue to Next Module"
                   )}
                 </Button>
         </div>
@@ -254,7 +268,7 @@ const CBTExercise1 = () => {
 
   // Validation: Check if current step's response is filled (for interactive steps)
   const isStepValid = () => {
-    const interactiveSteps = [1, 2, 3]; // Steps that require input (0-based: 1=name,2=rate,3=body)
+    const interactiveSteps = [1, 2, 3]; // Steps that require input (1-based: 1=name,2=rate,3=body)
     if (interactiveSteps.includes(step)) {
       return responses[step - 1]?.trim().length > 0 || (step === 2 && responses[1]); // Step 2 is slider, always valid if set
     }

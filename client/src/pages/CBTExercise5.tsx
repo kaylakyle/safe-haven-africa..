@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useApi } from "@/hooks/useApi";
 import { cbtAPI } from "@/services/api";
@@ -16,6 +16,28 @@ const CBTExercise5 = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(0);
   const [responses, setResponses] = useState<string[]>([]);
+
+  // Load saved responses and step from localStorage
+  useEffect(() => {
+    const savedResponses = localStorage.getItem(`cbt-responses-${MODULE_ID}`);
+    const savedStep = localStorage.getItem(`cbt-step-${MODULE_ID}`);
+    if (savedResponses) {
+      try {
+        setResponses(JSON.parse(savedResponses));
+      } catch (e) {
+        console.error("Error parsing saved responses:", e);
+      }
+    }
+    if (savedStep) {
+      setStep(parseInt(savedStep, 10));
+    }
+  }, []);
+
+  // Save responses and step to localStorage on change
+  useEffect(() => {
+    localStorage.setItem(`cbt-responses-${MODULE_ID}`, JSON.stringify(responses));
+    localStorage.setItem(`cbt-step-${MODULE_ID}`, step.toString());
+  }, [responses, step]);
 
   // Update progress when module completes
   const { execute: updateProgress, isLoading: updateLoading } = useApi(
@@ -50,6 +72,26 @@ const CBTExercise5 = () => {
           <p className="text-muted-foreground">
             This plan should be practical, specific, and tailored to your unique situation and needs.
           </p>
+          <div className="pt-4">
+            <Button
+              onClick={() => {
+                const prevModule = (Number(MODULE_ID) - 1).toString();
+                const completed = JSON.parse(localStorage.getItem("completedModules") || "[]");
+                if (completed.includes(prevModule) || step > 0 || (responses && responses.length > 0)) {
+                  setStep(1);
+                } else {
+                  toast({
+                    title: "Module locked",
+                    description: `Please complete the previous module (${prevModule}) before starting this one.`,
+                    variant: "destructive",
+                  });
+                }
+              }}
+              className="bg-gradient-calm"
+            >
+              {step > 0 || (responses && responses.length > 0) ? "Continue Module" : "Start Module"}
+            </Button>
+          </div>
         </div>
       ),
     },
@@ -258,6 +300,14 @@ const CBTExercise5 = () => {
           </p>
           <Button
             onClick={async () => {
+              if (!isReadyToComplete()) {
+                toast({
+                  title: "Please complete all required steps",
+                  description: "Fill in your responses for the interactive steps before completing this exercise.",
+                  variant: "destructive",
+                });
+                return;
+              }
               // Mark as completed in API if authenticated
               if (isAuthenticated) {
                 try {
@@ -300,7 +350,37 @@ const CBTExercise5 = () => {
     },
   ];
 
+  const interactiveSteps = [1, 2, 3, 4, 5, 6, 7];
+
+  const isStepValid = () => {
+    if (interactiveSteps.includes(step)) {
+      return responses[step - 1]?.trim().length > 0;
+    }
+    return true;
+  };
+
+  const isReadyToComplete = () => {
+    // Ensure all required responses (responses[0]..responses[6]) are present
+    return (
+      responses[0]?.trim().length > 0 &&
+      responses[1]?.trim().length > 0 &&
+      responses[2]?.trim().length > 0 &&
+      responses[3]?.trim().length > 0 &&
+      responses[4]?.trim().length > 0 &&
+      responses[5]?.trim().length > 0 &&
+      responses[6]?.trim().length > 0
+    );
+  };
+
   const nextStep = () => {
+    if (!isStepValid()) {
+      toast({
+        title: "Please complete this step",
+        description: "Fill in your response before continuing.",
+        variant: "destructive",
+      });
+      return;
+    }
     if (step < steps.length - 1) {
       setStep(step + 1);
     }
