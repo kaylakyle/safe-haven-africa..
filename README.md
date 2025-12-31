@@ -58,17 +58,17 @@ Password: demo1234
 
 **Frontend:**
 
-* HTML, CSS, JavaScript
-* React (if applicable)
+* Typescript
+* React js
 
 **Backend:**
 
-* Node.js / Python (update if needed)
-* Authentication & session handling
+* Node.js
+* Express js
 
 **Database:**
 
-* Secure user data storage
+* MongoDB
 
 **Deployment:**
 
@@ -108,8 +108,6 @@ This project was built collaboratively as a team effort. Contributions included:
 
 For questions or feedback:
 
-**Project Team – Safe Haven Africa**
+**Email: Lynnkati18@gmail.com**
 
 ---
-
-> "Healing should never require exposing your pain."
