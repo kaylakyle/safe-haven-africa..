@@ -28,7 +28,7 @@ Safe Haven Africa addresses this by providing **anonymous, secure, and trauma‑
 ---
 ## 📸 Screenshots
 ### Login Page
-![Login Page](dashboard.png)
+![Login Page](dashboard.png.jpg)
 
 ---
 ## 👥 Demo Access (For Judges & Reviewers)
