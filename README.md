@@ -26,7 +26,11 @@ Safe Haven Africa addresses this by providing **anonymous, secure, and trauma‑
 * 🛡️ **Privacy‑First Design** – No tracking, minimal data collection
 
 ---
+## 📸 Screenshots
+### Login Page
+![Login Page](dashboard.png)
 
+---
 ## 👥 Demo Access (For Judges & Reviewers)
 
 To allow full evaluation of the platform, please use the demo credentials below:
