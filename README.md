@@ -35,7 +35,7 @@ Safe Haven Africa addresses this by providing **anonymous, secure, and trauma‑
 ![Crisis Resources](resource.png.jpg)
 
 ---
-## 👥 Demo Access (For Judges & Reviewers)
+## 👥 Demo Access
 
 To allow full evaluation of the platform, please use the demo credentials below:
 
