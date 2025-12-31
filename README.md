@@ -1,4 +1,4 @@
-# Safe Haven Africa 
+# Resilience Hub
 
 A **privacy‑focused mental health web application** designed to support survivors of digital harm across Africa through anonymous access to CBT tools, guided breathing, journaling, and verified crisis resources.
 
