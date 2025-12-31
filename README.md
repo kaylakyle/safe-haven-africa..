@@ -28,7 +28,11 @@ Safe Haven Africa addresses this by providing **anonymous, secure, and trauma‑
 ---
 ## 📸 Screenshots
 ### Login Page
-![Login Page](dashboard.png.jpg)
+![dashboard Page](dashboard.png.jpg)
+### CBT Page
+![CBT Page](cbt.png.jpg)
+### Crisis Resources
+![Crisis Resources](resource.png.jpg)
 
 ---
 ## 👥 Demo Access (For Judges & Reviewers)
