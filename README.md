@@ -44,7 +44,8 @@ Password: demo1234
 
 1. Visit: [https://safe-haven-africa.vercel.app](https://safe-haven-africa.vercel.app)
 2. Log in using the demo credentials above
-3. Navigate through:
+3. Watch the demo vedio here: [https://youtu.be/IraZwlWeJ9w]
+5. Navigate through:
 
    * CBT modules
    * Breathing exercises
