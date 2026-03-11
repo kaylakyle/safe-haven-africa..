@@ -117,4 +117,3 @@ This project was built collaboratively as a team effort. Contributions included:
 For questions or feedback:
 
 **Email: Lynnkati18@gmail.com**
-
