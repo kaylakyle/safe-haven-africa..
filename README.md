@@ -4,7 +4,7 @@ A **privacy‑focused mental health web application** designed to support surviv
 
 ---
 
-## 🌍 Problem
+##  Problem
 
 Survivors of online abuse, harassment, and digital harm often face:
 
