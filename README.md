@@ -16,7 +16,7 @@ Safe Haven Africa addresses this by providing **anonymous, secure, and trauma‑
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 * 🔐 **Anonymous Authentication** – Users can access support without exposing personal identity
 * 🧠 **CBT Modules** – Evidence‑based cognitive behavioral therapy exercises
